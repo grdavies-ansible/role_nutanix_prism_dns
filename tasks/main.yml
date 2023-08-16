@@ -1,7 +1,12 @@
 ---
 # tasks file for nutanix_role_nutanix_dns
-- import_tasks: setup_api.yml
-- import_tasks: dns.yml
-- include_tasks: debug.yml
+- name: Setup connection to Nutanix API
+  ansible.builtin.include_tasks: setup_api.yml
+
+- name: Configure DNS
+  ansible.builtin.import_tasks: dns.yml
+
+- name: Debug
+  ansible.builtin.include_tasks: debug.yml
   when:
     - nutanix_debug
