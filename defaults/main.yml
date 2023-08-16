@@ -1,0 +1,9 @@
+---
+# defaults file for nutanix_role_nutanix_dns
+nutanix_host: ""
+nutanix_username: ""
+nutanix_password: ""
+nutanix_port: 9440
+validate_certs: no
+nutanix_debug: False
+nutanix_dns_server_list: []

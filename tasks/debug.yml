@@ -1,0 +1,8 @@
+---
+  - name: Debug dns.yml variables
+    debug:
+      var: "{{ item }}"
+    loop:
+      - nutanix_dns_current_config.json | default('')
+      - nutanix_dns_remove_missing_entry.results | default('')
+      - nutanix_dns_update.results | default('')

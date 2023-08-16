@@ -1,0 +1,43 @@
+---
+# tasks file for nutanix_role_nutanix_dns
+- name: Get current DNS configuration
+  uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v2.0/cluster/name_servers"
+    method: GET
+    validate_certs: "{{ validate_certs }}"
+    body_format: json
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+    return_content: yes
+  register: nutanix_dns_current_config
+
+- name: Remove configured DNS server if not provided
+  uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v2.0/cluster/name_servers/{{ item }}"
+    method: DELETE
+    validate_certs: "{{ validate_certs }}"
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+    return_content: yes
+    status_code: 204
+  when:
+    - item in nutanix_dns_current_config.json
+    - item not in nutanix_dns_server_list
+  register: nutanix_dns_remove_missing_entry
+  loop: "{{ nutanix_dns_current_config.json }}"
+
+- name: Set DNS server
+  uri:
+    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v2.0/cluster/name_servers"
+    method: POST
+    validate_certs: "{{ validate_certs }}"
+    body:
+      value: "{{ item }}"
+    body_format: json
+    headers:
+      Authorization: "{{ nutanix_api_auth }}"
+    return_content: yes
+    status_code: 200,201
+  register: nutanix_dns_update
+  loop: "{{ nutanix_dns_server_list }}"
+  when: item not in nutanix_dns_current_config.json
