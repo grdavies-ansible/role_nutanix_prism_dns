@@ -2,22 +2,22 @@
 # tasks file for nutanix_role_nutanix_dns
 - name: Get current DNS configuration
   ansible.builtin.uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v2.0/cluster/name_servers"
+    url: "https://{{ role_nutanix_prism_api_url_base }}/PrismGateway/services/rest/v2.0/cluster/name_servers"
     method: GET
-    validate_certs: "{{ validate_certs }}"
+    validate_certs: "{{ role_nutanix_prism_dns_validate_certs }}"
     body_format: json
     headers:
-      Authorization: "{{ nutanix_api_auth }}"
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
     return_content: true
   register: nutanix_dns_current_config
 
 - name: Remove configured DNS server if not provided
   ansible.builtin.uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v2.0/cluster/name_servers/{{ item }}"
+    url: "https://{{ role_nutanix_prism_api_url_base }}/PrismGateway/services/rest/v2.0/cluster/name_servers/{{ item }}"
     method: DELETE
-    validate_certs: "{{ validate_certs }}"
+    validate_certs: "{{ role_nutanix_prism_dns_validate_certs }}"
     headers:
-      Authorization: "{{ nutanix_api_auth }}"
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
     return_content: true
     status_code: 204
   when:
@@ -28,14 +28,14 @@
 
 - name: Set DNS server
   ansible.builtin.uri:
-    url: "https://{{ nutanix_host }}:{{ nutanix_port }}/PrismGateway/services/rest/v2.0/cluster/name_servers"
+    url: "https://{{ role_nutanix_prism_api_url_base }}/PrismGateway/services/rest/v2.0/cluster/name_servers"
     method: POST
-    validate_certs: "{{ validate_certs }}"
+    validate_certs: "{{ role_nutanix_prism_dns_validate_certs }}"
     body:
       value: "{{ item }}"
     body_format: json
     headers:
-      Authorization: "{{ nutanix_api_auth }}"
+      Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
     return_content: true
     status_code: 200,201
   register: nutanix_dns_update
