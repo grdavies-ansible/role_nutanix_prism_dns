@@ -9,7 +9,12 @@
     headers:
       Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
     return_content: true
-  register: nutanix_dns_current_config
+  register: role_nutanix_prism_dns_current_config
+
+- name: Debug role_nutanix_prism_dns_debug
+  ansible.builtin.debug:
+    msg: "{{ role_nutanix_prism_dns_current_config }}"
+  when: role_nutanix_prism_dns_debug
 
 - name: Remove configured DNS server if not provided
   ansible.builtin.uri:
@@ -21,10 +26,15 @@
     return_content: true
     status_code: 204
   when:
-    - item in nutanix_dns_current_config.json
-    - item not in nutanix_dns_server_list
-  register: nutanix_dns_remove_missing_entry
-  loop: "{{ nutanix_dns_current_config.json }}"
+    - item in role_nutanix_prism_dns_current_config.json
+    - item not in role_nutanix_prism_dns_list
+  register: role_nutanix_prism_dns_remove_missing_entry
+  loop: "{{ role_nutanix_prism_dns_current_config.json }}"
+
+- name: Debug role_nutanix_prism_dns_remove_missing_entry
+  ansible.builtin.debug:
+    msg: "{{ role_nutanix_prism_dns_remove_missing_entry }}"
+  when: role_nutanix_prism_dns_debug
 
 - name: Set DNS server
   ansible.builtin.uri:
@@ -38,6 +48,11 @@
       Authorization: "{{ role_nutanix_prism_api_auth_string_b64 }}"
     return_content: true
     status_code: 200,201
-  register: nutanix_dns_update
-  loop: "{{ nutanix_dns_server_list }}"
-  when: item not in nutanix_dns_current_config.json
+  register: role_nutanix_prism_dns_update
+  loop: "{{ role_nutanix_prism_dns_list }}"
+  when: item not in role_nutanix_prism_dns_current_config.json
+
+- name: Debug role_nutanix_prism_dns_update
+  ansible.builtin.debug:
+    msg: "{{ role_nutanix_prism_dns_update }}"
+  when: role_nutanix_prism_dns_debug

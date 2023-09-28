@@ -5,5 +5,5 @@ role_nutanix_prism_dns_username: ""
 role_nutanix_prism_dns_password: ""
 role_nutanix_prism_dns_port: 9440
 role_nutanix_prism_dns_validate_certs: false
-role_nutanix_prism_dns_validate_debug: false
-nutanix_dns_server_list: []
+role_nutanix_prism_dns_debug: false
+role_nutanix_prism_dns_list: []

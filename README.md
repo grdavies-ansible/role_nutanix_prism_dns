@@ -13,11 +13,11 @@ This Ansible role sets the DNS server configuration for Prism Element and Prism 
 | role_nutanix_prism_dns_port           | no       | 9440    |                                                                                 | The Prism TCP port.                                                                                                                                |
 | role_nutanix_prism_dns_validate_certs | no       | false   | true / false                                                                    | Whether to check if Prism UI certificates are valid.                                                                                               |
 | role_nutanix_prism_dns_debug          | no       | false   | true / false                                                                    | Debuging output.                                                                                                                                   |
-| nutanix_dns_server_list               | yes      | []      |                                                                                 | Provide a list of DNS server IP addresses; ["8.8.8.8", "8.8.4.4"].                                                                                 |
+| role_nutanix_prism_dns_list           | yes      | []      |                                                                                 | Provide a list of DNS server IP addresses; ["8.8.8.8", "8.8.4.4"].                                                                                 |
 
 ## Dependencies
 
-NA
+- grdavies.role_nutanix_prism_api
 
 ## Example Playbook
 
@@ -30,7 +30,7 @@ NA
     role_nutanix_prism_dns_host: 10.38.185.37
     role_nutanix_prism_dns_password: admin
     role_nutanix_prism_dns_username: nx2Tech165!
-    nutanix_dns_server_list:
+    role_nutanix_prism_dns_list:
       - 8.8.8.8
       - 8.8.4.4
 ```
