@@ -1,9 +1,9 @@
 ---
 # defaults file for nutanix_role_nutanix_dns
 role_nutanix_prism_dns_host: ""
-role_nutanix_prism_dns_username: ""
-role_nutanix_prism_dns_password: ""
-role_nutanix_prism_dns_port: 9440
-role_nutanix_prism_dns_validate_certs: false
+role_nutanix_prism_dns_host_username: ""
+role_nutanix_prism_dns_host_password: ""
+role_nutanix_prism_dns_host_port: 9440
+role_nutanix_prism_dns_host_validate_certs: false
 role_nutanix_prism_dns_debug: false
 role_nutanix_prism_dns_list: []
