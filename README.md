@@ -2,7 +2,6 @@
 
 This Ansible role sets the DNS server configuration for Prism Element and Prism Central.
 
-
 ## Role Variables
 
 | Variable                                   | Required | Default | Choices                                                                         | Comments                                                                                                                                           |
@@ -21,7 +20,7 @@ This Ansible role sets the DNS server configuration for Prism Element and Prism 
 
 ## Example Playbook
 
-```
+```YAML
 - hosts: localhost
   gather_facts: false
   roles:
